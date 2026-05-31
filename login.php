@@ -17,7 +17,7 @@ WHERE correo='$correo'
 AND password='$password'
 ";
 
-$resultado = pg_query($conn, $sql);
+$resultado = pg_query($conexion, $sql);
 
 if(pg_num_rows($resultado) > 0){
 
