@@ -35,10 +35,26 @@ VALUES (
 )
 ";
 
+$sqlAviso = "
+INSERT INTO tuto.avisos
+VALUES
+(
+    'AVI' || FLOOR(RANDOM()*10000),
+    'Nuevo tutor registrado',
+    'Se agregó un nuevo tutor al sistema',
+    'Normal',
+    NOW(),
+    false
+)
+";
+
+pg_query($conexion, $sqlAviso);
+
 pg_query($conexion, $sqlTutor);
 
 echo json_encode([
     "success" => true
 ]);
+
 
 ?>
