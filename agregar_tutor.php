@@ -18,7 +18,7 @@ VALUES (
     '$id_usuario',
     '$nombre',
     '$correo',
-    '$password',
+    '$password',    
     'ROL2'
 )
 ";

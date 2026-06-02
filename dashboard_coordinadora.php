@@ -5,44 +5,46 @@ header("Content-Type: application/json");
 
 include("conexion.php");
 
-$estudiantes = pg_fetch_assoc(
-    pg_query(
-        $conexion,
-        "SELECT COUNT(*) as total FROM tuto.alumnos"
-    )
-);
+$sqlEstudiantes = "
+SELECT COUNT(*) AS total
+FROM tuto.alumnos
+";
 
-$tutores = pg_fetch_assoc(
-    pg_query(
-        $conexion,
-        "SELECT COUNT(*) as total FROM tuto.tutores"
-    )
-);
+$sqlTutores = "
+SELECT COUNT(*) AS total
+FROM tuto.tutores
+";
 
+$resultadoEstudiantes = pg_query($conexion, $sqlEstudiantes);
+$resultadoTutores = pg_query($conexion, $sqlTutores);
+
+$totalEstudiantes = pg_fetch_assoc($resultadoEstudiantes)['total'];
+$totalTutores = pg_fetch_assoc($resultadoTutores)['total'];
 
 echo json_encode([
 
-    "totalEstudiantes" => $estudiantes['total'],
-    "tutoresActivos" => $tutores['total'],
-    "reportes" => 96,
-    "riesgo" => 38,
+    "totalEstudiantes" => $totalEstudiantes,
 
-    "riesgoAlto" => 200,
-    "riesgoMedio" => 20,
-    "riesgoBajo" => 10,
-    "sinRiesgo" => 5
+    "tutoresActivos" => $totalTutores,
+
+    "reportes" => 24,
+
+    "riesgo" => 7,
+
+    "riesgoAlto" => 7,
+    "riesgoMedio" => 15,
+    "riesgoBajo" => 32,
+    "sinRiesgo" => 40,
+
+    "tutorias" => [
+        ["mes" => "Oct", "cantidad" => 30],
+        ["mes" => "Nov", "cantidad" => 42],
+        ["mes" => "Dic", "cantidad" => 35],
+        ["mes" => "Ene", "cantidad" => 50],
+        ["mes" => "Feb", "cantidad" => 61],
+        ["mes" => "Mar", "cantidad" => 70]
+    ]
 
 ]);
-
-"tutoriasMeses" => [
-
-    ["mes" => "Oct", "tutorias" => 85],
-    ["mes" => "Nov", "tutorias" => 92],
-    ["mes" => "Dic", "tutorias" => 78],
-    ["mes" => "Ene", "tutorias" => 95],
-    ["mes" => "Feb", "tutorias" => 110],
-    ["mes" => "Mar", "tutorias" => 118]
-
-]
 
 ?>
