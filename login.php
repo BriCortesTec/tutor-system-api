@@ -25,7 +25,8 @@ if(pg_num_rows($resultado) > 0){
 
     echo json_encode([
         "success" => true,
-        "rol" => $usuario['nombre_rol']
+        "rol" => $usuario['nombre_rol'],
+        "nombre" => $usuario ['nombre']
     ]);
 
 }else{
