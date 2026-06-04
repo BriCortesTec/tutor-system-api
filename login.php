@@ -22,8 +22,11 @@ $resultado = pg_query($conexion, $sql);
 if(pg_num_rows($resultado) > 0){
 
     $usuario = pg_fetch_assoc($resultado);
-    $idTutor = null;
 
+    $idTutor = null;
+    $idAlumno = null;
+
+    // ===== TUTOR =====
     if($usuario['nombre_rol'] == 'Tutor'){
 
         $sqlTutor = "
@@ -43,11 +46,34 @@ if(pg_num_rows($resultado) > 0){
         }
 
     }
+
+    // ===== ESTUDIANTE =====
+    if($usuario['nombre_rol'] == 'Estudiante'){
+
+        $sqlAlumno = "
+        SELECT id_alumno
+        FROM tuto.alumnos
+        WHERE id_usuario = '".$usuario['id_usuario']."'
+        ";
+
+        $resultadoAlumno = pg_query($conexion, $sqlAlumno);
+
+        if(pg_num_rows($resultadoAlumno) > 0){
+
+            $alumno = pg_fetch_assoc($resultadoAlumno);
+
+            $idAlumno = $alumno['id_alumno'];
+
+        }
+
+    }
+
     echo json_encode([
         "success" => true,
         "rol" => $usuario['nombre_rol'],
-        "nombre" => $usuario ['nombre'],
-        "id_tutor" => $idTutor
+        "nombre" => $usuario['nombre'],
+        "id_tutor" => $idTutor,
+        "id_alumno" => $idAlumno
     ]);
 
 }else{
@@ -57,4 +83,5 @@ if(pg_num_rows($resultado) > 0){
     ]);
 
 }
+
 ?>
