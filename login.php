@@ -22,11 +22,32 @@ $resultado = pg_query($conexion, $sql);
 if(pg_num_rows($resultado) > 0){
 
     $usuario = pg_fetch_assoc($resultado);
+    $idTutor = null;
 
+    if($usuario['nombre_rol'] == 'Tutor'){
+
+        $sqlTutor = "
+        SELECT id_tutor
+        FROM tuto.tutores
+        WHERE id_usuario = '".$usuario['id_usuario']."'
+        ";
+
+        $resultadoTutor = pg_query($conexion, $sqlTutor);
+
+        if(pg_num_rows($resultadoTutor) > 0){
+
+            $tutor = pg_fetch_assoc($resultadoTutor);
+
+            $idTutor = $tutor['id_tutor'];
+
+        }
+
+    }
     echo json_encode([
         "success" => true,
         "rol" => $usuario['nombre_rol'],
-        "nombre" => $usuario ['nombre']
+        "nombre" => $usuario ['nombre'],
+        "id_tutor" => $idTutor
     ]);
 
 }else{
