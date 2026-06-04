@@ -5,7 +5,7 @@ host=localhost
 port=5432
 dbname=tuto
 user=postgres
-password=bakarimasta26
+password=23161146
 ");
 
 if(!$conexion){
